@@ -95,9 +95,9 @@ export const List = ({ lista,alterarStatus,editar,remover }: PropsList) => {
         </tr>
         {lista.map((item) => {
           return (
-            <tr key={item.id} className="mb-5 ">
+            <tr key={item.id} className="mb-5 border-b border-whited">
               <td>
-                <p className={`${item.done?"line-through text-green-400":"text-white"} text-center `} >{item.text} </p>
+                <p className={`${item.done?"line-through text-green-400":"text-white"} text-center `} > {item.text} </p>
               </td>
              
               <td>
