@@ -1,13 +1,20 @@
+import { useState } from "react"
+
+type Props = {
+    save:(id:number,text:string)=>void,
+    id:number,
+    text:string
+}
+export const Editar = ({id,save,text}:Props)=>{
+
+   const [value, setvalue] = useState(text)
+
+return(
+    <div className="fixed w-full h-full bg-black/70 left-0 top-0 flex justify-center items-center">
+        <input value={value} onChange={e => setvalue(e.target.value)}  type="text"  className=" text-white border-b border-green-500 bg-black/0 w-96 outline-none"/> <br />
+        <button onClick={()=>save(id,value)} className="ml-2 px-2 py-1 bg-green-500 text-white rounded-md">Salvar</button>
+    </div>
+)
 
 
-
-export const TelaEdit = ()=>{
-
-
-    return(
-        <div className="w-full h-full left-0 top-0 bottom-5 fixed bg-black/50 flex justify-center items-center">
-            <input  type="text"  className="w-6/12 h-12  bg-black/0 border-b border-green-500 outline-none"/>
-            <button className="px-2 py-1 text-white bg-green-500 rounded-md">Salvar</button>
-        </div>
-    )
 }

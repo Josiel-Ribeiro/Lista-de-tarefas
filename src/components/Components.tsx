@@ -1,7 +1,8 @@
 import { item } from "@/types/item";
 import { type } from "os";
 import { useEffect, useState } from "react";
-import { TelaEdit } from "./ComponentsEdit";
+import { Editar } from "./ComponentsEdit";
+
 
 type PropsInput = {
   add: (text: string) => void;
@@ -35,7 +36,7 @@ export const InputList = ({ add }: PropsInput) => {
         value={valor}
         onChange={(e) => setValor(e.target.value)}
         type="text"
-        className=" w-full h-full rounded-md mx-auto bg-gray-600 text-center text-white outline-green-500"
+        className=" w-full h-full rounded-md mx-auto bg-gray-800 text-center text-white outline-green-500"
       />
       <button
         onClick={() => Adicionar(valor)}
@@ -57,24 +58,21 @@ type PropsList = {
 export const List = ({ lista,alterarStatus,editar,remover }: PropsList) => {
   const [expandir, setexpandir] = useState(false);
   const [show,setShow]= useState(false)
-  const [itemEditar,setItemEdit] = useState(0)
-  const [text,setText] = useState("")
+  const [IdItemEditar,setIdItemEdit] = useState(0)
+  const [text,setTextEdit] = useState("")
  
  const functionEdit = (id:number,text:string)=>{
     setShow(true)
-    setItemEdit(id)
-    setText(text)
+    setIdItemEdit(id)
+    setTextEdit(text)
    
   
 
   }
 
-  const edicao = (id:number,text:string)=>{
- 
+  const newEdit = (id:number,text:string)=>{
     editar(id,text)
     setShow(false)
-
-
   }
 
   useEffect(() => {
@@ -87,8 +85,10 @@ export const List = ({ lista,alterarStatus,editar,remover }: PropsList) => {
     <div
       className={`transition-all duration-1000 w-8/12 ${heigthClass} overflow-hidden mx-auto mt-3 bg-gray-500 rounded-md`}
     >
-        {show && <TelaEdit/>}
-      <table className=" w-11/12 mx-auto text-center">
+      
+      {show  && <Editar save={newEdit}id={IdItemEditar}text={text}/>}
+      <div className="w-full h-96 bg-gray-600  overflow-hidden overflow-y-scroll">
+      <table className=" w-11/12  mx-auto text-center ">
         <tr className="text-green-400">
             <th className="w-1/2"><p>TAREFAS</p></th>
             <th className="w-1/2"><p>EDIÇÕES</p></th>
@@ -97,14 +97,26 @@ export const List = ({ lista,alterarStatus,editar,remover }: PropsList) => {
           return (
             <tr key={item.id} className="mb-5 ">
               <td>
-                <p className={`${item.done?"line-through text-green-400":""} text-center text-white`} >{item.text} </p>
+                <p className={`${item.done?"line-through text-green-400":"text-white"} text-center `} >{item.text} </p>
               </td>
              
               <td>
-              <button onClick={()=>remover(item.id)} className="text-lg font-bold text-red-400">X</button>
-              <button onClick={()=>functionEdit(item.id,item.text)} className="text-lg font-bold ml-5 text-black">Editar</button>
+              <button onClick={()=>remover(item.id)} className="text-lg font-bold text-red-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+</svg>
+
+              </button>
+              <button onClick={()=>functionEdit(item.id,item.text)} className="text-lg font-bold ml-5 text-black">
+
+
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+</svg>
+
+              </button>
                 
-                <button onClick={()=> alterarStatus(item.id)} className= {`${item.done?" text-green-400":"text-white"} w-24 py-2`}>{!item.done && "Concluir"} {item.done && "Reverter"}</button>
+                <button onClick={()=> alterarStatus(item.id)} className= {`text-black w-24 py-2 font-bold`}>{!item.done && "Concluir"} {item.done && "Reverter"}</button>
               
               
               </td>
@@ -113,6 +125,7 @@ export const List = ({ lista,alterarStatus,editar,remover }: PropsList) => {
           );
         })}
       </table>
+      </div>
     </div>
   );
 };
